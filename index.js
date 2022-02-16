@@ -1,8 +1,9 @@
 var Express = require('express')
 var cors = require('cors')
 var bodyParser = require('body-parser')
-
+const port = process.env.PORT || 3000
 const { request, response } = require('express')
+
 
 var app = Express()
 app.use(bodyParser.json())
@@ -23,11 +24,12 @@ var DATABASE = "testdb"
 var database
 
 
-app.listen(3000, ()=>{
+app.listen(port, ()=>{
 
       MongoClient.connect(CONNECTION_STRING, {useNewUrlParser:true}, (error, client)=>{
       database = client.db(DATABASE)
       console.log("mongodb connection successful")
+      console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
     })
 
 })
