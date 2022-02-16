@@ -1,7 +1,7 @@
 var Express = require('express')
 var cors = require('cors')
 var bodyParser = require('body-parser')
-const port = Process.env.PORT || 3000
+const port = process.env.PORT || 3000
 const { request, response } = require('express')
 
 
@@ -17,22 +17,21 @@ var fs = require ('fs')
 app.use(fileUpload())
 app.use('/Photos', Express.static(__dirname+'/Photos'))
 
+MongoClient.connect(CONNECTION_STRING, {useNewUrlParser:true}, (error, client)=>{
+    database = client.db(DATABASE)
+    console.log("mongodb connection successful")
+    //console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  })
 
 app.use(cors()) 
 
 var DATABASE = "testdb"
 var database
 
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+/*app.listen(port, ()=>{
 
-app.listen(port, ()=>{
-
-      MongoClient.connect(CONNECTION_STRING, {useNewUrlParser:true}, (error, client)=>{
-      database = client.db(DATABASE)
-      console.log("mongodb connection successful")
-      //console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-    })
-
-})
+})*/
 
 app.get('/', (request, response) =>{
     response.send('Hello world')
