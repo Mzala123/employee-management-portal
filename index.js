@@ -1,8 +1,6 @@
 var Express = require('express')
 var cors = require('cors')
-var http = require('http')
 var bodyParser = require('body-parser')
-const port = process.env.PORT || 3000
 
 const { request, response } = require('express')
 
@@ -24,25 +22,19 @@ app.use(cors())
 var DATABASE = "testdb"
 var database
 
-MongoClient.connect(CONNECTION_STRING, {useNewUrlParser:true}, (error, client)=>{
-    database = client.db(DATABASE)
-    console.log("mongodb connection successful")
-  })
 
-var server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html');
-    res.end('<h1>Hello World</h1>');
-  });
-//server = http.createServer(app)
+app.listen(3000, ()=>{
 
-server.listen(port, ()=>{
-    console.log(`Server running at port `+port);
+      MongoClient.connect(CONNECTION_STRING, {useNewUrlParser:true}, (error, client)=>{
+      database = client.db(DATABASE)
+      console.log("mongodb connection successful")
+    })
+
 })
 
-/*app.get('/', (request, response) =>{
+app.get('/', (request, response) =>{
     response.send('Hello world')
-})*/
+})
 
 app.get('/api/department', (request, response) => {
     database.collection('Department').find({}).toArray((error, result) =>{
