@@ -1,5 +1,7 @@
 var Express = require('express')
+var cors = require('cors')
 var bodyParser = require('body-parser')
+
 const { request, response } = require('express')
 
 var app = Express()
@@ -14,8 +16,8 @@ var fs = require ('fs')
 app.use(fileUpload())
 app.use('/Photos', Express.static(__dirname+'/Photos'))
 
-var cors = require('cors')
-app.use(cors)
+
+app.use(cors()) 
 
 var DATABASE = "testdb"
 var database
@@ -152,9 +154,9 @@ app.delete('/api/employee/:id', (request, response) =>{
 
 app.post('/api/employee/savefile', (req, res) =>{
      fs.writeFile('./Photos/'+req.files.file.name,
-     req.files.file.data, function(error){
-        if(error){
-            console.log(error)
+     req.files.file.data, function(err){
+        if(err){
+            console.log(err)
         }else{
             res.json(req.files.file.name)
         }
